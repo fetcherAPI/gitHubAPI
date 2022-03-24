@@ -37,14 +37,17 @@ body {
   font-size: 1.5rem;
   display: flex;
   align-items: center;
-  padding-left: 1rem;
+  padding: 0rem 1rem;
   transition: 500ms;
 }
 .search__item:hover {
   background-color: #65cdf9;
 }
-.choosed-list__item {
+.choosed-list {
   margin-top: 20px;
+  padding: 0;
+}
+.choosed-list__item {
   background-color: #e27beb;
   font-size: 1.5rem;
   padding: 1rem;
