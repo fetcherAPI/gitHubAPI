@@ -59,3 +59,9 @@ body {
   margin: 0;
   padding: 0;
 }
+.choosed-list__btn {
+  outline: none; /* Для синий ободки */
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+}

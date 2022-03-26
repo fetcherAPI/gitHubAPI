@@ -44,16 +44,27 @@ class View {
     return element;
   }
 
+  removeReposList() {
+    this.reposList.innerHTML = "";
+  }
+
   createRepoItem(repo) {
+    const imgUrl = "./img/close.svg";
     const repoItem = this.createElement("li", "search__item");
     repoItem.innerHTML = `${repo.full_name}`;
     this.reposList.append(repoItem);
     repoItem.addEventListener("click", () => {
+      this.removeReposList();
       const choosedRepo = this.createElement("li", "choosed-list__item");
-      console.log("", choosedRepo);
       choosedRepo.innerHTML = `<p>name: ${repo.name}<br/>owner: ${repo.owner.login}<br/>stars: ${repo.stargazers_count}</p>`;
+      const removeChoosedRepo = this.createElement(
+        "button",
+        "choosed-list__btn"
+      );
+      removeChoosedRepo.innerHTML = `<img src=${imgUrl} alt="remove">`;
+      choosedRepo.append(removeChoosedRepo);
+      removeChoosedRepo.addEventListener("click", () => choosedRepo.remove());
       this.choosedRepoList.appendChild(choosedRepo);
-      this.reposList.style.display = "none";
     });
     console.log("this.repoList", this.reposList);
     console.log("repoItem", repoItem);
@@ -65,18 +76,40 @@ class Search {
     this.view = view;
     this.view.searchInput.addEventListener(
       "keyup",
-      this.getReposInfo.bind(this)
+      this.debounce(this.getReposInfo.bind(this), 500)
     );
   }
 
   async getReposInfo() {
-    return await fetch(
-      `https://api.github.com/search/repositories?q=${this.view.searchInput.value}&per_page=5`
-    )
-      .then((response) => response.json())
-      .then((data) =>
-        data.items.forEach((dataItem) => this.view.createRepoItem(dataItem))
-      );
+    const inputValue = this.view.searchInput.value;
+    inputValue
+      ? await fetch(
+          `https://api.github.com/search/repositories?q=${inputValue}&per_page=5`
+        )
+          .then((response) => response.json())
+          .then((data) =>
+            data.items.forEach((dataItem) => this.view.createRepoItem(dataItem))
+          )
+      : this.removeReposList();
+  }
+
+  removeReposList() {
+    this.view.reposList.innerHTML = "";
+  }
+  debounce(func, wait, immediate) {
+    let timeout;
+    return function () {
+      const context = this,
+        args = arguments;
+      const later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      const callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
   }
 }
 
