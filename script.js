@@ -49,6 +49,7 @@ class View {
   }
 
   createRepoItem(repo) {
+    console.log("repo", repo);
     const imgUrl = "./img/close.svg";
     const repoItem = this.createElement("li", "search__item");
     repoItem.innerHTML = `${repo.full_name}`;
@@ -82,15 +83,18 @@ class Search {
 
   async getReposInfo() {
     const inputValue = this.view.searchInput.value;
-    inputValue
-      ? await fetch(
-          `https://api.github.com/search/repositories?q=${inputValue}&per_page=5`
-        )
-          .then((response) => response.json())
-          .then((data) =>
-            data.items.forEach((dataItem) => this.view.createRepoItem(dataItem))
-          )
-      : this.removeReposList();
+    if (inputValue) {
+      this.removeReposList();
+      await fetch(
+        `https://api.github.com/search/repositories?q=${inputValue}&per_page=5`
+      )
+        .then((response) => response.json())
+        .then((data) =>
+          data.items.forEach((dataItem) => this.view.createRepoItem(dataItem))
+        );
+    } else {
+      this.removeReposList();
+    }
   }
 
   removeReposList() {
