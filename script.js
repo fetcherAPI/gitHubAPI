@@ -30,6 +30,7 @@ class View {
     repoItem.innerHTML = `${repo.full_name}`;
     this.reposList.append(repoItem);
     repoItem.addEventListener("click", () => {
+      this.searchInput.value = "";
       this.removeReposList();
       const choosedRepo = this.createElement("li", "choosed-list__item");
       choosedRepo.innerHTML = `<p>name: ${repo.name}<br/>owner: ${repo.owner.login}<br/>stars: ${repo.stargazers_count}</p>`;
