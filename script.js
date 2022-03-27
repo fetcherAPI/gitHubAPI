@@ -1,28 +1,3 @@
-// async function getRepositoryInfo(value) {
-//   const inputValue = document.querySelector(".search-input");
-
-//   return await fetch(
-//     `https://api.github.com/search/repositories?q=ma&per_page=5`
-//   ).then((response) => response.json());
-// }
-
-// getRepositoryInfo().then((data) => {
-//   const ropoList = document.querySelector(".search__list"),
-//     choosedRepoList = document.querySelector(".choosed-list");
-//   data.items.forEach((li, i) => {
-//     const liElement = document.createElement("li");
-//     liElement.classList.add("search__item");
-//     liElement.innerHTML = `<li>${li.full_name}</li>`;
-//     ropoList.appendChild(liElement);
-//     liElement.addEventListener("click", () => {
-//       const choosedRepo = document.createElement("li");
-//       choosedRepo.classList.add("choosed-list__item");
-//       choosedRepo.innerHTML = `<p>name: ${li.name}<br/>owner: ${li.owner.login}<br/>stars: ${li.stargazers_count}</p>`;
-//       choosedRepoList.appendChild(choosedRepo);
-//     });
-//   });
-// });
-
 class View {
   constructor() {
     this.app = document.querySelector(".search");
