@@ -53,7 +53,7 @@ class Search {
     this.view = view;
     this.view.searchInput.addEventListener(
       "keyup",
-      this.debounce(this.getReposInfo.bind(this), 500)
+      this.debounce(this.getReposInfo.bind(this), 300)
     );
   }
 
